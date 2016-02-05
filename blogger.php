@@ -54,7 +54,6 @@ $id = $_SESSION['id'];
 <!doctype html>
 <html>
   <head>
-    <title>SI Blogger</title>
     <link href='style.css' type='text/css' rel='stylesheet'></link>
   </head>
   <body>
