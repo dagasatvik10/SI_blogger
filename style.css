@@ -1,0 +1,42 @@
+body{
+  background: lightgrey;
+}
+#heading{
+  position: relative;
+  text-align: center;
+}
+
+#main{
+  margin-left: 30%;
+
+  position: relative;
+  width:15%;
+  display: inline-block;
+  clear:both;
+}
+
+#si_logo{
+  display: inline-block;
+  position: relative;
+  margin-left:16%;
+  bottom:17vmin;
+  clear:both;
+}
+.fields{
+  margin-top: 2%;
+}
+#tarea{
+  position: relative;
+  width:21%;
+  margin: auto;
+}
+#section{
+  position: relative;
+  width:20%;
+  margin: auto;
+}
+#logout{
+  position: absolute;
+  width:10%;
+  right:2%;
+}
