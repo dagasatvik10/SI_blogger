@@ -1,10 +1,13 @@
 <?php
+//to use the header function anywhere
 ob_start();
+//Start the session and keep it running
 session_start();
-
+//Check whether the session is set and if it is not set, then redirect to the login page
 if(!isset($_SESSION['id'])){
   header("Location: login.php");
 }
+//variables for database connection
 $servername = "localhost";
 $username = "root";
 $passwd = "";
@@ -15,9 +18,10 @@ $conn = mysqli_connect($servername,$username,$passwd,$db);
 if(!$conn)
   die("Connection Failed: ".mysqli_connect_error());
 
-@$id = $_SESSION['id'];
+$id = $_SESSION['id'];
 ?>
 <?php
+  //Check if the form is submited
   if($_SERVER['REQUEST_METHOD'] == "POST"){
     $blog = $_POST['blog'];
 
@@ -27,21 +31,21 @@ if(!$conn)
   }
 ?>
 <?php
-  $sql = "SELECT * FROM blogs";
+  //fetch all blogs from db
+  $sql = "SELECT * FROM blogs ORDER BY created_at DESC";
 
-  $result = mysqli_query($conn,$sql);
-  //print_r($result);
-  $i=1;
-  if(mysqli_num_rows($result) > 0){
-    while($row = mysqli_fetch_array($result)){
-      $blogs[$i] = $row["blog"];
-      $created_at[$i] = $row["created_at"];
-      $id = $row["user_id"];
+  $result1 = mysqli_query($conn,$sql);
+
+  if(mysqli_num_rows($result1) > 0){
+    for($i=1;$row1 = mysqli_fetch_array($result1);$i++){
+      $blogs[$i] = $row1["blog"];
+      $created_at[$i] = $row1["created_at"];
+      $id = $row1["user_id"];
+      //fetch the name of users each blog
       $sql = "SELECT name FROM users WHERE id='$id'";
-      $result1 = mysqli_query($conn,$sql);
-      $row1 = mysqli_fetch_array($result1);
-      $name[$i] = $row1[0] ;
-      $i++;
+      $result2 = mysqli_query($conn,$sql);
+      $row2 = mysqli_fetch_array($result2);
+      $name[$i] = $row2[0] ;
     }
   }
   $n = $i;
