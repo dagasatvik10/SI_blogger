@@ -11,20 +11,30 @@ if(!$conn)
   die("Connection Failed: ".mysqli_connect_error());
 ?>
 <?php
+$error = '';
+$check = true;
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   $name = $_POST["name"];
   $email = $_POST["email"];
   $password = md5($_POST["password"]);
 
-  $sql = "INSERT INTO users (name,email,password) VALUES ('$name','$email','$password')";
+  if(!isset($name) or !isset($email) or !isset($password))
+    $check = false;
 
-  if(mysqli_query($conn,$sql)){
-    header("Location: login.php");
+  if($check){
+    $sql = "INSERT INTO users (name,email,password) VALUES ('$name','$email','$password')";
+
+    if(mysqli_query($conn,$sql)){
+      header("Location: login.php");
+    }
+    else {
+      die("Error: ".mysqli_error($conn));
+    }
+    mysqli_close($conn);
   }
-  else {
-    die("Error: ".mysqli_error($conn));
+  else{
+    $error = 'All fields required';
   }
-  mysqli_close($conn);
 }
 ?>
 <!doctype html>
@@ -36,6 +46,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   <body>
     <h1 id='heading'>Create New Blogger</h1>
     <div id='main'>
+      <p id='error'><?php echo $error;?></p>
       <form  action='sign_up.php' method='post'>
         <div class='fields'>
           <label for='name'>NAME</label>

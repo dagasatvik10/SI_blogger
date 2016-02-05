@@ -8,7 +8,6 @@ body{
 
 #main{
   margin-left: 30%;
-
   position: relative;
   width:15%;
   display: inline-block;
@@ -17,26 +16,27 @@ body{
 
 #si_logo{
   display: inline-block;
-  position: relative;
-  margin-left:16%;
-  bottom:17vmin;
+  position: absolute;
+  right:30%;
+  top:15%;
   clear:both;
 }
 .fields{
   margin-top: 2%;
 }
-#tarea{
+#tarea,#section{
   position: relative;
   width:21%;
-  margin: auto;
+  margin-left: 20%;
+  clear:both;
 }
-#section{
-  position: relative;
-  width:20%;
-  margin: auto;
-}
+
 #logout{
   position: absolute;
   width:10%;
   right:2%;
+}
+#error{
+  color: red;
+  font-size: 2vmin;
 }

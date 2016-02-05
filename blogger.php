@@ -82,5 +82,8 @@ $id = $_SESSION['id'];
         ?>
       </ul>
     </div>
+    <div id='si_logo'>
+      <img src='logo.png'>
+    </div>
   </body>
 </html>

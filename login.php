@@ -11,32 +11,41 @@ if(!$conn)
   die("Connection Failed: ".mysqli_connect_error());
 ?>
 <?php
+$error = "";
+$check = true;
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   $email = $_POST["email"];
   $password = md5($_POST["password"]);
 
-  $sql = "SELECT * FROM users WHERE email='$email'";
+  if(!isset($email) or !isset($password))
+    $check = false;
 
-  $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
+  if($check){
+    $sql = "SELECT * FROM users WHERE email='$email'";
 
-  if(mysqli_num_rows($result) > 0){
-    while($row = mysqli_fetch_array($result)){
-      if($row["password"] == $password){
-        echo "hey";
-        session_start();
-        $_SESSION['id'] = $row["id"];
-        $_SESSION["name"] = $row["name"];
-        header("Location: blogger.php");
+    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
+
+    if(mysqli_num_rows($result) > 0){
+      while($row = mysqli_fetch_array($result)){
+        if($row["password"] == $password){
+          session_start();
+          $_SESSION['id'] = $row["id"];
+          $_SESSION["name"] = $row["name"];
+          header("Location: blogger.php");
+        }
+        else
+          $error = 'Wrong Password';
+        }
       }
-      else
-        echo "Wrong password";
+    else {
+        $error = 'Wrong Email';
     }
-  }
-  else {
-    echo "Wrong email";
-  }
 
-  mysqli_close($conn);
+    mysqli_close($conn);
+  }
+  else{
+    $error = 'All fields required';
+  }
 }
 ?>
 <!doctype html>
@@ -48,6 +57,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   <body>
     <h1 id='heading'>Sign in</h1>
     <div id='main'>
+      <p id='error'><?php echo $error ?></p>
       <form action='login.php' method='post'>
         <div class='fields'>
           <label for='email'>EMAIL</label>
